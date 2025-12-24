@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - WhatsApp Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-dark text-white min-vh-100 py-5">
+    <div class="container" style="max-width: 600px;">
+        <div class="d-flex align-items-center mb-4">
+            <button onclick="window.location.href='chat.html'" class="btn btn-outline-light rounded-circle me-3 border-0">
+                <i class="fas fa-arrow-left fa-lg"></i>
+            </button>
+            <h1 class="h3 m-0 fw-bold">Profile</h1>
+        </div>
+
+        <div class="card bg-header text-white border-0 shadow-lg mb-4 animate-fade-in">
+            <div class="card-body p-4 p-md-5 text-center">
+                <!-- Profile Picture Section -->
+                <div class="position-relative d-inline-block mb-4">
+                    <div class="profile-pic-wrapper cursor-pointer position-relative rounded-circle overflow-hidden shadow" onclick="document.getElementById('profile-pic-input').click()" style="width: 150px; height: 150px;">
+                        <img id="profile-display-pic" src="/images/default-profile.png" class="w-100 h-100 object-fit-cover" alt="Profile Picture">
+                        <div class="overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex flex-column align-items-center justify-content-center opacity-0 transition-all hover-opacity-100">
+                            <i class="fas fa-camera mb-2 fa-lg"></i>
+                            <span class="small fw-bold px-3 text-center">CHANGE PROFILE PHOTO</span>
+                        </div>
+                    </div>
+                    <input type="file" id="profile-pic-input" style="display:none;" accept="image/*">
+                </div>
+
+                <div class="text-start">
+                    <!-- User Info Section -->
+                    <div class="mb-4">
+                        <label class="text-wa-success small fw-bold text-uppercase mb-2 d-block">Your Name</label>
+                        <div class="d-flex justify-content-between align-items-center bg-dark p-3 rounded border border-secondary">
+                            <span id="display-username" class="fw-medium">Loading...</span>
+                            <i class="fas fa-pen text-light opacity-50 cursor-pointer" onclick="editField('username')"></i>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="text-wa-success small fw-bold text-uppercase mb-2 d-block">Email</label>
+                        <div class="d-flex justify-content-between align-items-center bg-dark p-3 rounded border border-secondary opacity-75">
+                            <span id="display-email">Loading...</span>
+                            <i class="fas fa-lock text-light opacity-25"></i>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="text-wa-success small fw-bold text-uppercase mb-2 d-block">Wallpaper</label>
+                        <div class="d-flex justify-content-between align-items-center bg-dark p-3 rounded border border-secondary">
+                            <span class="opacity-75">Chat background</span>
+                            <button class="btn btn-sm btn-success fw-bold" onclick="document.getElementById('wallpaper-input').click()">UPLOAD</button>
+                        </div>
+                        <input type="file" id="wallpaper-input" style="display:none;" accept="image/*">
+                    </div>
+
+                    <button class="btn btn-outline-danger w-100 py-3 fw-bold shadow-sm" onclick="logout()">LOG OUT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal bg-dark bg-opacity-75" style="display:none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-header text-white border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="modal-title">Edit Name</h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="closeModal()"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <input type="text" id="modal-input" class="form-control form-control-lg bg-dark text-white border-secondary shadow-none">
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-link text-light text-decoration-none fw-bold" onclick="closeModal()">CANCEL</button>
+                    <button type="button" class="btn btn-success px-4 fw-bold" onclick="saveField()">SAVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/profile.js"></script>
+</body>
+</html>

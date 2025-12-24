@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-dark text-white overflow-hidden">
+    <div class="container-fluid p-0 vh-100 overflow-hidden">
+        <div class="row g-0 h-100">
+            <!-- Sidebar -->
+            <div class="col-3 d-flex flex-column border-end border-secondary bg-sidebar h-100">
+                <div class="p-3 bg-header d-flex justify-content-between align-items-center flex-shrink-0">
+                    <img id="my-profile-pic" src="/images/default-profile.png" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                    <div class="sidebar-header-icons fs-5">
+                        <a href="profile.html" class="text-reset me-3"><i class="fas fa-circle-notch"></i></a>
+                        <i class="fa-solid fa-user-plus me-3 cursor-pointer" onclick="toggleAddFriend()"></i>
+                        <i class="fas fa-sign-out-alt cursor-pointer" onclick="logout()" title="Logout"></i>
+                    </div>
+                </div>
+
+                <div id="add-friend-section" class="p-3 bg-secondary-subtle border-bottom border-secondary animate-fade-in" style="display:none;">
+                    <input type="text" id="search-friend-input" class="form-control form-control-sm bg-dark text-white border-secondary mb-2" placeholder="Search by username">
+                    <button onclick="searchAndAddFriend()" class="btn btn-success btn-sm w-100">Add Friend</button>
+                </div>
+
+                <div class="search-container border-bottom border-secondary">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="friend-search-input" placeholder="Search or start new chat">
+                    </div>
+                </div>
+
+                <div class="flex-grow-1 overflow-auto overflow-x-hidden pt-1" id="friends-list">
+                    <!-- Friends loaded here -->
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div class="col-9 d-flex flex-column h-100 bg-chat">
+                <div id="chat-header" class="p-3 bg-header  d-flex justify-content-between align-items-center flex-shrink-0">
+                    <div class="d-flex align-items-center">
+                        <div class="img-container me-3">
+                            <img id="current-friend-pic" src="/images/default-profile.png" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                            <div class="status-dot" id="header-status-dot"></div>
+                        </div>
+                        <h6 id="current-friend-name" class="m-0 fw-bold">Select a chat</h6>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-image header-icon-btn" onclick="document.getElementById('wallpaper-upload').click()" title="Change Wallpaper"></i>
+                        <input type="file" id="wallpaper-upload" style="display:none;" accept="image/*">
+                        <i class="fas fa-search header-icon-btn"></i>
+                        <i class="fas fa-ellipsis-v header-icon-btn"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1 overflow-auto p-4 d-flex flex-column gap-2 bg-chat" id="messages-container" style="flex: 1 1 0;">
+                </div>
+                <div id="pending-file-bar" class="p-3 bg-dark border-top border-secondary justify-content-between align-items-center animate-slide-up d-none">
+                    <div class="d-flex align-items-center text-success fs-small">
+                        <i class="fas fa-file-alt me-3 fa-lg"></i>
+                        <span id="pending-file-name" class="fw-medium">filename.pdf</span>
+                    </div>
+                    <i class="fas fa-times text-light opacity-50 cursor-pointer fs-5" id="cancel-file-upload"></i>
+                </div>
+
+                <div id="chat-input-area" class="chat-input-container flex-shrink-0 d-none">
+                    <div class="chat-icon-btn" id="emoji-trigger">
+                        <i class="far fa-smile"></i>
+                    </div>
+                    <div id="emoji-picker-container" style="display:none; position:absolute; bottom:75px; left:20px; z-index:1000;">
+                        <emoji-picker></emoji-picker>
+                    </div>
+                    <div class="chat-icon-btn" onclick="document.getElementById('chat-file-input').click()">
+                        <i class="fas fa-paperclip"></i>
+                    </div>
+                    <input type="file" id="chat-file-input" style="display:none;">
+                    
+                    <input type="text" id="message-input" class="chat-input-field" placeholder="Type a message">
+                    
+                    <div class="chat-icon-btn" id="mic-btn">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Popover -->
+    <div id="profile-popover" class="bg-dark border border-secondary rounded shadow-lg p-3 position-absolute animate-fade-in" style="display:none; width: 220px; z-index: 2000;">
+        <div class="text-center position-relative">
+            <button class="btn btn-sm btn-link text-light position-absolute top-0 end-0 p-0 text-decoration-none opacity-50" onclick="closePopover()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="popover-pic" src="/images/default-profile.png" class="rounded-circle mb-3 border border-2 border-secondary" style="width: 80px; height: 80px; object-fit: cover;">
+            <h6 id="popover-name" class="mb-1 fw-bold">Friend Name</h6>
+            <p id="popover-email" class="small text-light opacity-50 mb-2 text-truncate">Friend Email</p>
+            <p id="popover-status" class="small fw-medium m-0">Status: Offline</p>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1/index.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>
